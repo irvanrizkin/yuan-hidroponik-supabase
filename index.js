@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
+const deviceRoutes = require('./src/routes/device.route');
+
 const app = express();
 
 app.use(cors());
@@ -16,6 +18,8 @@ app.get('/', (_, res) => {
     }
   );
 });
+
+app.use('/devices', deviceRoutes);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
