@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 
 const deviceRoutes = require('./src/routes/device.route');
+const recordRoutes = require('./src/routes/record.route');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.get('/', (_, res) => {
 });
 
 app.use('/devices', deviceRoutes);
+app.use('/records', recordRoutes);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {

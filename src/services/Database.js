@@ -27,6 +27,32 @@ class Database {
     return { data, error };
   }
 
+  async findOne(table, where) {
+    const key = Object.keys(where)[0];
+    const value = where[key];
+
+    const { data, error } = await this.supabase
+      .from(table)
+      .select()
+      .eq(key, value)
+      .single()
+
+    return { data, error };
+  }
+
+  async findWhere(table, where) {
+    const key = Object.keys(where)[0];
+    const value = where[key];
+
+    const { data, error } = await this.supabase
+      .from(table)
+      .select()
+      .eq(key, value)
+      .order('id', { ascending: true })
+
+    return { data, error };
+  }
+
   async create(table, values) {
     const { data, error } = await this.supabase
       .from(table)
