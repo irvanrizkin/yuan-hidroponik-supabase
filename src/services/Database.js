@@ -12,7 +12,8 @@ class Database {
   async findAll(table) {
     const { data, error } = await this.supabase
       .from(table)
-      .select();
+      .select()
+      .order('id', { ascending: true })
 
     return { data, error };
   }
