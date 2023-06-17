@@ -18,6 +18,15 @@ class Database {
     return { data, error };
   }
 
+  async findByPk(table, id) {
+    const { data, error } = await this.supabase
+      .from(table)
+      .select()
+      .eq('id', id)
+
+    return { data, error };
+  }
+
   async create(table, values) {
     const { data, error } = await this.supabase
       .from(table)

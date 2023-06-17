@@ -17,6 +17,24 @@ class DeviceController {
     }
   }
 
+  async getById(req, res, next) {
+    const { id } = req.params;
+
+    try {
+      const { data, error } = await databaseInstance.findByPk('devices', id);
+
+      if (error) throw new Error(error);
+
+      return res.status(200).json({
+        success: true,
+        message: 'one device grabbed',
+        results: data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async create(req, res, next) {
     const {
       name, topic, thingerUrl, thingerBearer

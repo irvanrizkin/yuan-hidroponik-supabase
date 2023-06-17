@@ -5,6 +5,8 @@ const deviceController = new DeviceController();
 
 router.get('/', deviceController.index);
 
+router.get('/:id', deviceController.getById);
+
 router.post('/', deviceController.create);
 
 router.put('/:id', deviceController.update);
