@@ -41,5 +41,6 @@ async function addRecord(topic, message) {
 subscribeAll();
 
 mqttInstance.setOnMessage(addRecord);
+databaseInstance.setOnDatabaseChanges('public', 'devices', subscribeAll);
 
 module.exports = mqttInstance;

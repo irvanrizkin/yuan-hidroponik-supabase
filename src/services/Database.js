@@ -86,6 +86,17 @@ class Database {
 
     return { error };
   }
+
+  setOnDatabaseChanges(schema, table, callback) {
+    this.supabase.channel('custom-all-channel')
+      .on('postgres_changes',{
+        event: '*',
+        schema,
+        table,
+      }, (payload) => {
+        callback(payload);
+      }).subscribe();
+  }
 }
 
 module.exports = Database;
