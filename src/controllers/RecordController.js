@@ -9,7 +9,7 @@ class RecordController {
 
       return res.status(200).json({
         success: true,
-        message: 'all devices grabbed',
+        message: 'all records grabbed',
         results: data,
       });
     } catch (error) {
@@ -18,21 +18,9 @@ class RecordController {
   }
 
   async getByDevice(req, res, next) {
-    const { name } = req.params;
+    const { deviceId } = req.params;
 
     try {
-      const {
-        data: deviceData,
-        error: deviceError
-      } = await databaseInstance.findOne('devices', {
-        name
-      });
-
-      if (deviceError) throw new Error(deviceError);
-      if (deviceData === null) throw new Error('device not found');
-
-      const deviceId = deviceData.id;
-
       const { data, error } = await databaseInstance.findWhere('records', {
         deviceId,
       })
@@ -41,7 +29,7 @@ class RecordController {
 
       return res.status(200).json({
         success: true,
-        message: 'one device grabbed',
+        message: 'all records grabbed by deviceId',
         results: data,
       });
     } catch (error) {
@@ -51,27 +39,15 @@ class RecordController {
 
   async create(req, res, next) {
     const {
-      ppm, temperature, name
+      ppm, temperature, deviceId
     } = req.body;
 
     try {
-      const {
-        data: deviceData,
-        error: deviceError
-      } = await databaseInstance.findOne('devices', {
-        name
-      });
-
-      if (deviceError) throw new Error(deviceError);
-      if (deviceData === null) throw new Error('device not found');
-
-      const deviceId = deviceData.id;
-
       const { data, error } = await databaseInstance.create('records', {
         ppm, temperature, deviceId, source: 'thinger'
       })
 
-      if (error) throw new Error(error);
+      if (error) throw new Error(error.message);
 
       return res.status(200).json({
         success: true,

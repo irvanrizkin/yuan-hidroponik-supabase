@@ -5,7 +5,7 @@ const recordController = new RecordController();
 
 router.get('/', recordController.index);
 
-router.get('/:name', recordController.getByDevice);
+router.get('/:deviceId', recordController.getByDevice);
 
 router.post('/', recordController.create);
 
