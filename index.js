@@ -4,6 +4,7 @@ const cors = require('cors');
 
 const deviceRoutes = require('./src/routes/device.route');
 const recordRoutes = require('./src/routes/record.route');
+const mqttInstance = require('./src/dependencies/mqttInstance');
 
 const app = express();
 
