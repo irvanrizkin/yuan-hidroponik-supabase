@@ -4,6 +4,7 @@ const cors = require('cors');
 
 const deviceRoutes = require('./src/routes/device.route');
 const recordRoutes = require('./src/routes/record.route');
+const actionRoutes = require('./src/routes/action.route');
 const mqttInstance = require('./src/dependencies/mqttInstance');
 
 const app = express();
@@ -23,8 +24,10 @@ app.get('/', (_, res) => {
 
 app.use('/devices', deviceRoutes);
 app.use('/records', recordRoutes);
+app.use('/actions', actionRoutes);
 
 const PORT = process.env.PORT || 8000;
+const MODE = process.env.MODE || 'mqtt';
 app.listen(PORT, () => {
-  console.log(`Running in port ${PORT}`);
+  console.log(`Running in port ${PORT} on ${MODE}`);
 })
