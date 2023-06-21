@@ -37,12 +37,12 @@ class DeviceController {
 
   async create(req, res, next) {
     const {
-      name, topic, thingerUrl, thingerBearer
+      name, thingerUrl, thingerBearer
     } = req.body;
 
     try {
       const { data, error } = await databaseInstance.create('devices', {
-        name, topic, thingerUrl, thingerBearer
+        name, thingerUrl, thingerBearer
       })
 
       if (error) throw new Error(error);
@@ -60,12 +60,12 @@ class DeviceController {
   async update(req, res, next) {
     const { id } = req.params;
     const {
-      name, topic, thingerUrl, thingerBearer
+      name, thingerUrl, thingerBearer
     } = req.body;
 
     try {
       const { data, error } = await databaseInstance.update('devices', {
-        name, topic, thingerUrl, thingerBearer
+        name, thingerUrl, thingerBearer
       }, { id })
 
       if (error) throw new Error(error);

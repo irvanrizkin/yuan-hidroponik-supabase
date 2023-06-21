@@ -16,16 +16,18 @@ async function subscribeAll() {
 
     if (topicError) throw new Error(topicError.message);
     
-    devices.map(device => mqttInstance.setSubscription(device.topic));
+    devices.map(device => mqttInstance.setSubscription(`${device.id}/+`));
   } catch (error) {
     console.log(error);
   }
 };
 
 async function addRecord(topic, message) {
-  const { ppm, temperature, deviceId, source } = JSON.parse(message.toString());
+  const { ppm, temperature, source } = JSON.parse(message.toString());
   try {
     if (topic.includes('/tdstemp')) {
+      const [deviceId] = topic.split('/');
+
       await databaseInstance.create('records', {
         ppm,
         temperature,
