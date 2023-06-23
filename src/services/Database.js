@@ -23,6 +23,7 @@ class Database {
       .from(table)
       .select()
       .eq('id', id)
+      .single()
 
     return { data, error };
   }

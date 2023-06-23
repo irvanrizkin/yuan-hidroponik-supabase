@@ -17,7 +17,7 @@ class ActionController {
       }
 
       const { data } = await databaseInstance.findByPk('devices', id);
-      const { thingerUrl, thingerBearer } = data[0];
+      const { thingerUrl, thingerBearer } = data;
 
       await axios.post(thingerUrl, 'true', {
         headers: {
