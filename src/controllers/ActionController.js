@@ -17,6 +17,7 @@ class ActionController {
       }
 
       const { data } = await databaseInstance.findByPk('devices', id);
+      if (!data) throw new Error('device not found');
       const { thingerUrl, thingerBearer } = data;
 
       await axios.post(thingerUrl, 'true', {

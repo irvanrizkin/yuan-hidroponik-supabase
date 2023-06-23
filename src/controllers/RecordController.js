@@ -5,7 +5,7 @@ class RecordController {
     try {
       const { data, error } = await databaseInstance.findAll('records');
 
-      if (error) throw new Error(error);
+      if (error) throw new Error(error.message);
 
       return res.status(200).json({
         success: true,
@@ -25,7 +25,7 @@ class RecordController {
         deviceId,
       })
 
-      if (error) throw new Error(error);
+      if (error) throw new Error(error.message);
 
       return res.status(200).json({
         success: true,

@@ -6,7 +6,7 @@ class DeviceController {
     try {
       const { data, error } = await databaseInstance.findAll('devices');
 
-      if (error) throw new Error(error);
+      if (error) throw new Error(error.message);
 
       return res.status(200).json({
         success: true,
@@ -24,7 +24,7 @@ class DeviceController {
     try {
       const { data, error } = await databaseInstance.findByPk('devices', id);
 
-      if (error) throw new Error(error);
+      if (error) throw new Error(error.message);
 
       return res.status(200).json({
         success: true,
@@ -48,7 +48,7 @@ class DeviceController {
         id, name, thingerUrl, thingerBearer
       })
 
-      if (error) throw new Error(error);
+      if (error) throw new Error(error.message);
 
       return res.status(200).json({
         success: true,
@@ -71,7 +71,7 @@ class DeviceController {
         name, thingerUrl, thingerBearer
       }, { id })
 
-      if (error) throw new Error(error);
+      if (error) throw new Error(error.message);
 
       return res.status(200).json({
         success: true,
@@ -89,7 +89,7 @@ class DeviceController {
     try {
       const { error } = await databaseInstance.destroy('devices', { id });
 
-      if (error) throw new Error(error);
+      if (error) throw new Error(error.message);
 
       return res.status(200).json({
         success: true,
