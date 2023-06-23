@@ -1,3 +1,4 @@
+const nanoid = require("../config/nanoid");
 const databaseInstance = require("../dependencies/databaseInstance");
 
 class DeviceController {
@@ -41,8 +42,10 @@ class DeviceController {
     } = req.body;
 
     try {
+      const id = nanoid();
+
       const { data, error } = await databaseInstance.create('devices', {
-        name, thingerUrl, thingerBearer
+        id, name, thingerUrl, thingerBearer
       })
 
       if (error) throw new Error(error);
