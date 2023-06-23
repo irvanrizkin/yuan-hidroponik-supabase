@@ -1,12 +1,14 @@
 const { default: axios } = require("axios");
 const mqttInstance = require("../dependencies/mqttInstance");
-const databaseInstance = require("../dependencies/databaseInstance");
+const Controller = require("./Controller");
 
-class ActionController {
+class ActionController extends Controller {
   async openValve(req, res, next) {
     const { id } = req.params;
 
     try {
+      const data = await super.getDeviceData(id);
+
       if (process.env.MODE === 'mqtt') {
         mqttInstance.sendMessage(`${id}/actuator`, 'true');
 
@@ -16,8 +18,6 @@ class ActionController {
         })
       }
 
-      const { data } = await databaseInstance.findByPk('devices', id);
-      if (!data) throw new Error('device not found');
       const { thingerUrl, thingerBearer } = data;
 
       await axios.post(thingerUrl, 'true', {

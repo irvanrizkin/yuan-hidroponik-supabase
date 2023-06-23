@@ -1,7 +1,8 @@
 const nanoid = require("../config/nanoid");
 const databaseInstance = require("../dependencies/databaseInstance");
+const Controller = require("./Controller");
 
-class DeviceController {
+class DeviceController extends Controller {
   async index(req, res, next) {
     try {
       const { data, error } = await databaseInstance.findAll('devices');
@@ -67,6 +68,8 @@ class DeviceController {
     } = req.body;
 
     try {
+      await super.getDeviceData(id);
+
       const { data, error } = await databaseInstance.update('devices', {
         name, thingerUrl, thingerBearer
       }, { id })
@@ -87,6 +90,8 @@ class DeviceController {
     const { id } = req.params;
 
     try {
+      await super.getDeviceData(id);
+
       const { error } = await databaseInstance.destroy('devices', { id });
 
       if (error) throw new Error(error.message);
