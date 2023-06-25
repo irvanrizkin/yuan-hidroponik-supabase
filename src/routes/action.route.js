@@ -5,4 +5,6 @@ const actionController = new ActionController();
 
 router.get('/valve/:id/flow/:flow', actionController.openValve);
 
+router.get('/read/:id', actionController.readSensor);
+
 module.exports = router;
