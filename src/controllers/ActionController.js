@@ -4,13 +4,13 @@ const Controller = require("./Controller");
 
 class ActionController extends Controller {
   async openValve(req, res, next) {
-    const { id } = req.params;
+    const { id, flow } = req.params;
 
     try {
       const data = await super.getDeviceData(id);
 
       if (process.env.MODE === 'mqtt') {
-        mqttInstance.sendMessage(`${id}/actuator`, 'true');
+        mqttInstance.sendMessage(`${id}/actuator/${flow}`);
 
         return res.status(200).json({
           success: true,
@@ -20,7 +20,7 @@ class ActionController extends Controller {
 
       const { thingerUrl, thingerBearer } = data;
 
-      await axios.post(thingerUrl, 'true', {
+      await axios.post(thingerUrl, flow, {
         headers: {
           Authorization: `Bearer ${thingerBearer}`,
           'Content-Type': 'application/json',
