@@ -54,6 +54,23 @@ class Database {
     return { data, error };
   }
 
+  async findWhereGreaterEqual(table, where, greater) {
+    const key = Object.keys(where)[0];
+    const value = where[key];
+    const keyGreater = Object.keys(greater)[0];
+    const valueGreater = greater[keyGreater];
+    
+
+    const { data, error } = await this.supabase
+      .from(table)
+      .select()
+      .eq(key, value)
+      .gte(keyGreater, valueGreater)
+      .order('createdAt', { ascending: true })
+
+    return { data, error };
+  }
+
   async create(table, values) {
     const { data, error } = await this.supabase
       .from(table)

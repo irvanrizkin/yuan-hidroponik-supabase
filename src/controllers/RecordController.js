@@ -19,10 +19,17 @@ class RecordController {
 
   async getByDevice(req, res, next) {
     const { deviceId } = req.params;
+    const { hour } = req.query;
 
+    const currentTime = new Date();
+    
     try {
-      const { data, error } = await databaseInstance.findWhere('records', {
+      const hoursAgo = new Date(currentTime.getTime()  - hour * 60 * 60 * 1000).toISOString();
+
+      const { data, error } = await databaseInstance.findWhereGreaterEqual('records', {
         deviceId,
+      }, {
+        createdAt: hoursAgo,
       })
 
       if (error) throw new Error(error.message);
