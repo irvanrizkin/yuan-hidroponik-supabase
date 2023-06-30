@@ -13,7 +13,7 @@ class Database {
     const { data, error } = await this.supabase
       .from(table)
       .select()
-      .order('id', { ascending: true })
+      .order('createdAt', { ascending: true })
 
     return { data, error };
   }
@@ -49,7 +49,7 @@ class Database {
       .from(table)
       .select()
       .eq(key, value)
-      .order('id', { ascending: true })
+      .order('createdAt', { ascending: true })
 
     return { data, error };
   }
