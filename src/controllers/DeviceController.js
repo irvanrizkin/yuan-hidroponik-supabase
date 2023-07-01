@@ -39,12 +39,10 @@ class DeviceController extends Controller {
 
   async create(req, res, next) {
     const {
-      name, thingerUrl, thingerBearer
+      id, name, thingerUrl, thingerBearer
     } = req.body;
 
     try {
-      const id = nanoid();
-
       const { data, error } = await databaseInstance.create('devices', {
         id, name, thingerUrl, thingerBearer
       })
