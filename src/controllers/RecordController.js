@@ -1,4 +1,5 @@
 const databaseInstance = require("../dependencies/databaseInstance");
+const TimeGroup = require("../utils/TimeGroup");
 
 class RecordController {
   async index(req, res, next) {
@@ -19,12 +20,20 @@ class RecordController {
 
   async getByDevice(req, res, next) {
     const { deviceId } = req.params;
-    const { hour } = req.query;
+    const { time } = req.query;
 
     const currentTime = new Date();
+    const HOUR_OPTIONS = {
+      '6h': 6,
+      '1d': 24,
+      '1w': 168,
+    };
+    
     
     try {
-      const hoursAgo = new Date(currentTime.getTime()  - hour * 60 * 60 * 1000).toISOString();
+      if (!HOUR_OPTIONS[time]) throw new Error('invalid time query');
+
+      const hoursAgo = new Date(currentTime.getTime()  - HOUR_OPTIONS[time] * 60 * 60 * 1000).toISOString();
 
       const { data, error } = await databaseInstance.findWhereGreaterEqual('records', {
         deviceId,
@@ -34,11 +43,34 @@ class RecordController {
 
       if (error) throw new Error(error.message);
 
-      return res.status(200).json({
-        success: true,
-        message: 'all records grabbed by deviceId',
-        results: data,
-      });
+      const timeGroup = new TimeGroup(data);
+
+      if (time === '6h') {
+        const results = data;
+        return res.status(200).json({
+          success: true,
+          message: 'all records grabbed by deviceId',
+          results,
+        });
+      }
+      
+      if (time === '1d') {
+        const results = timeGroup.groupPerHour();
+        return res.status(200).json({
+          success: true,
+          message: 'all records grabbed by deviceId',
+          results,
+        });
+      }
+      
+      if (time === '1w') {
+        const results = timeGroup.groupPerDay();
+        return res.status(200).json({
+          success: true,
+          message: 'all records grabbed by deviceId',
+          results,
+        });
+      }
     } catch (error) {
       next(error);
     }
